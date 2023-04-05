@@ -8,15 +8,17 @@ class Field:
         return str(self.value)
 
 class Name(Field):
-    pass
+    def __init__(self, value):
+        self.value = value
 
 class Phone(Field):
-    pass
+    def __init__(self, value):
+        self.value = value
 
 class Record:
-    def __init__(self, name):
+    def __init__(self, name, phone=None):
         self.name = name
-        self.phones = []
+        self.phones = [phone] if phone else []
     
     def add_phone(self, phone):
         self.phones.append(phone)
@@ -31,6 +33,12 @@ class AddressBook(UserDict):
     def change_record(self, name, record):
         self.data[name.value] = record
 
+    def search_records(self, name):
+        search_records = []
+        for key in self.data:
+            if name.lower() in key.lower():
+                search_records.append(self.data[key])
+        return search_records
 contacts = AddressBook()
 
 def input_error(func):
